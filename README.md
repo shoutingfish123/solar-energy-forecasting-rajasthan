@@ -9,17 +9,25 @@ This repository contains the code and analysis for a time-series forecasting pro
 The analysis demonstrates that **SARIMA** outperforms baseline models (for both solar parks in Rajasthan) by capturing the strong annual seasonality of GHI thereby achieving a forecast RMSE of **19.52 W/m²** compared to 83.83 W/m² for standard ARIMA.
 
 <p align="center">
-  <img src="assets/forecast.png" width="700" title="Forcasting using different statistical models">
+  <img src="assets/forecast.jpg" width="700" title="Forcasting using different statistical models">
   <br>
-  <em>Figure 1: The SARIMA model (dashed purple) closely tracks the actual 2014 data (solid grey), capturing the seasonal peaks that other models missed.</em>
+  <em>Figure 1: The SARIMA model (dashed purple) closely tracks the actual 2014 data (solid grey), capturing the seasonal peaks that other models missed</em>
 </p>
 
 ## My Contributions
 While this was a group project for MATH F432: **Applied Statistical Methods**, I was responsible for the technical implementation and statistical analysis pipeline found in the `notebooks/` folder.
 
 My specific contributions included:
-* [cite_start]**Data Pipeline:** Wrote the Python scripts to clean the 15-year raw dataset, handle missing values, and resample hourly data into daily/weekly averages for modeling [cite: 854-859].
-* [cite_start]**Statistical Verification:** Implemented the **Shapiro-Wilk test** to statistically prove the non-normality of GHI data ($p < 0.05$) and performed **ADF tests** to check for stationarity[cite: 1195].
+* **Data Loading and Preprocessing:** Wrote the Python script to load and clean the the 15-year raw dataset by handling missing values so it is ready to be input to the time-series forecasting models.
+*  **Descriptive Statistics:** Plotted hourly and daily plots (in a week and a year) of GHI data to critically understand the nature of the given data. Along with the computation of several key statistics, plotted a heatmap that showed the correlation of GHI with other key variables in the dataset.
+<p align="center">
+  <img src="assets/heatmap.jpg" width="700" title="Correlation Heatmap of GHI with other key parameters">
+  <br>
+  <em>Figure 2: GHI is heavily correlated to DNI and DHI</em>
+</p>
+
+START FROM HERE
+* **Statistical Verification:** Implemented the **Shapiro-Wilk test** to statistically prove the non-normality of GHI data ($p < 0.05$) and performed **ADF tests** to check for stationarity[cite: 1195].
 * [cite_start]**Model Development:** Coded the implementation of the **SARIMA(1,1,1)×(1,1,0,52)** model using `statsmodels`, including the grid search for optimal parameters[cite: 1537].
 * [cite_start]**Forecasting Strategy:** Designed the **sliding window approach** (training on the trailing 60 days) to generate the granular 7-day operational forecast[cite: 1602].
 
