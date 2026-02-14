@@ -11,7 +11,7 @@ The analysis demonstrates that **SARIMA** outperforms baseline models (for both 
 <p align="center">
   <img src="assets/forecast.png" width="700" title="Forcasting using different statistical models">
   <br>
-  <em>Figure 1: 1-Year Forecast Comparison. The SARIMA model (dashed purple) closely tracks the actual 2014 data (solid grey), capturing the seasonal peaks that other models missed.</em>
+  <em>Figure 1: The SARIMA model (dashed purple) closely tracks the actual 2014 data (solid grey), capturing the seasonal peaks that other models missed.</em>
 </p>
 
 ## My Contributions
