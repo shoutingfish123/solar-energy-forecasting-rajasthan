@@ -35,20 +35,10 @@ My specific contributions included:
 <p align="center">
   <img src="assets/dist_type.jpg" width="700" title="To identify the probability distribution of daylight GHI">
   <br>
-  <em>Figure 3: Daylight GHI does not conform to any of the standard probability distributions </em>
+  <em>Figure 4: Daylight GHI does not conform to any of the standard probability distributions </em>
 </p> 
 
-
-## Repository Structure
-* **`notebooks/`**:
-    * `Raj1.ipynb`: My complete analysis pipeline for Solar Park 1 (EDA, Decomposition, Modeling).
-    * `Raj2.ipynb`: Validation pipeline I built for Solar Park 2 to ensure model generalization.
-* **`docs/`**: Contains the full **Project Report** detailing mathematical formulations and group findings.
-* START HERE
-
-## Methodology
-The project follows a rigorous statistical workflow implemented in Python:
-
+##  Project Methodology
 ### 1. Exploratory Data Analysis (EDA)
 * **Normality Testing:** Visually (Histogram/Q-Q Plot) and statistically (Shapiro-Wilk Test) confirmed that GHI data is **non-normal** ($p < 0.05$).
 * **Correlation Analysis:** Identified strong correlation ($r=0.94$) between GHI and DNI, and negative correlation with humidity.
@@ -58,9 +48,9 @@ The project follows a rigorous statistical workflow implemented in Python:
 Decomposed the 15-year daily average GHI into **Trend**, **Seasonality**, and **Residuals** using an additive model to isolate the annual signal.
 
 <p align="center">
-  <img src="assets/decomposition.png" width="600" title="Time Series Decomposition">
+  <img src="assets/ts_decomp.jpg" width="600" title="Time Series Decomposition">
   <br>
-  <em>Figure 2: Decomposition of 15-year GHI data showing clear annual seasonality.</em>
+  <em>Figure 5: Decomposition of 15-year GHI data showing clear annual seasonality.</em>
 </p>
 
 ### 3. Predictive Modeling
@@ -69,25 +59,48 @@ We evaluated five model architectures based on Root Mean Square Error (RMSE):
 * **Trend-Aware:** ARIMA (Autoregressive Integrated Moving Average).
 * **Seasonal-Aware:** SARIMA (Seasonal ARIMA) with parameters `(1,1,1)×(1,1,0,52)`.
 
+Visual results are shown in Figure 1.
+
+### 4. Daily Operational Forecasting
+For short-term forecasting, we use a sliding window **SARIMA** approach. The model is retrained daily on the most recent 60 days (1,440 hours) of data to prioritize recent weather patterns. This enables a granular 168-hour (7-day) hourly forecast while filtering out outdated historical noise.
+
+<p align="center">
+  <img src="assets/daily_forecast.jpg" width="600" title="Week long hourly GHI forecast">
+  <br>
+  <em>Figure 6: Week long hourly GHI forecast</em>
+</p>
+
 ## Results & Performance
-The **SARIMA model** proved to be the superior forecaster. Standard models (AR/ARIMA) failed to capture the recurring annual "bell curve" of solar radiation, resulting in flat-line predictions for long horizons.
+The **SARIMA model** proved to be the superior forecaster. Standard models (AR/ARIMA) failed to capture the  annual seasonality of solar radiation (GHI), thereby resulting in flat-line predictions for long horizons.
 
 | Model | Order `(p,d,q)×(P,D,Q,s)` | RMSE ($W/m^2$) | Outcome |
 | :--- | :--- | :--- | :--- |
-| **SARIMA** | **`(1,1,1)×(1,1,0,52)`** | **16.47** | **Best Performance** |
-| ARIMA | `(1,1,1)×(0,0,0,0)` | 81.44 | Failed to capture seasonality |
+| **SARIMA** | **`(1,1,1)×(1,1,0,52)`** | **19.52** | **Best Performance** |
+| ARIMA | `(1,1,1)×(0,0,0,0)` | 83.83 | Failed to capture seasonality |
 | ARMA | `(1,0,1)×(0,0,0,0)` | 87.41 | Flatline Forecast |
 | AR | `(1,0,0)×(0,0,0,0)` | 90.63 | High Error |
 | MA | `(0,0,1)×(0,0,0,0)` | 242.27 | Poor Fit |
 
-## Key Findings
-* **Weekly vs. Daily:** Forecasting weekly averages yielded higher accuracy by smoothing out high-frequency noise caused by daily cloud cover variations.
-* [cite_start]**Operational Value:** The sliding-window SARIMA approach successfully generated a granular 168-hour (7-day) forecast suitable for real-world grid dispatch planning[cite: 1602].
+## Repository Structure
+```text
+solar-energy-forecasting-rajasthan/
+│
+├── notebooks/                  # Jupyter notebooks with my contributed code
+│   ├── Raj1.ipynb              # Primary pipeline: EDA, Descriptive Statistics, Visualizations, Normality verification
+│   └── Raj2.ipynb              # Validation pipeline: To see if similar results are seen in the other solar park
+│
+├── docs/                       # Project documentation
+│   └── ProjectReport.pdf       # Full technical report and group findings
+|   └── ProjectPresent.pdf      # Slides that were used in the final group presentation
+|   └── ProblemStatement.pdf    # Original problem statement given by MATH F432 course instructor
+│
+├── assets/                     # Images for README visualization
+│   ├── daily_forecast.jpg
+│   ├── dist_type.jpg
+│   └── forecast.jpg
+│   └── heatmap.jpg
+│   └── hist_raj1.jpg
+│   └── qq_plot_raj1.jpg
+│   └── ts_decomp.jpg
 
-## Usage
-1. Clone the repository.
-2. Install dependencies: `pip install pandas numpy statsmodels matplotlib seaborn`.
-3. Run `notebooks/Raj1.ipynb` to reproduce the primary analysis.
 
-## Citation
-**Friedman Group**. "Statistical Analysis and Forecasting of Solar Energy." BITS Pilani, 2025.
