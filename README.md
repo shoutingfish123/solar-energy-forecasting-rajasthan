@@ -1,7 +1,5 @@
 # Statistical Analysis and Forecasting of Solar Energy in Rajasthan, India
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
-![Library](https://img.shields.io/badge/Statsmodels-Time%20Series-orange)
-![Context](https://img.shields.io/badge/Course-Applied%20Statistical%20Methods-green)
 
 ## Overview
 This repository contains the code and analysis for a time-series forecasting project aimed at predicting **Global Horizontal Irradiance (GHI)** for two solar parks in Rajasthan, India using 15 years of hourly data (2000–2014). This project compares statistical time-series forecasting models like AR, MA, ARMA and ARIMA against a seasonal model, SARIMA.
@@ -25,17 +23,26 @@ My specific contributions included:
   <br>
   <em>Figure 2: GHI is heavily correlated to DNI and DHI</em>
 </p>
+* **Statistical Verification:** Implemented the **Shapiro-Wilk test** to statistically prove the statistically prove the non-normality of daylight GHI ($p < 0.05$) and also plotted the Q-Q plot to verify the same.
+<p align="center">
+  <img src="assets/qq_plot_raj1.jpg" width="700" title="To verify normality of daylight GHI">
+  <br>
+  <em>Figure 3: Daylight GHI does not follow a normal distribution </em>
+</p>  
+* **Daylight GHI Distribution Identification:** Tried to graphically identify the probability distribution of daylight GHI by overlaying known probability distributions like Gamma, Log-Normal and Weibull over the histogram of daylight GHI. As it did not match with any of these distributions, I came to the conclusion that the daylight GHI can be a mixture of these distributions. None of them are able to capture the complex nature of daylight GHI.
+<p align="center">
+  <img src="assets/dist_type.jpg" width="700" title="To identify the probability distribution of daylight GHI">
+  <br>
+  <em>Figure 3: Daylight GHI does not conform to any of the standard probability distributions </em>
+</p> 
 
-START FROM HERE
-* **Statistical Verification:** Implemented the **Shapiro-Wilk test** to statistically prove the non-normality of GHI data ($p < 0.05$) and performed **ADF tests** to check for stationarity[cite: 1195].
-* [cite_start]**Model Development:** Coded the implementation of the **SARIMA(1,1,1)×(1,1,0,52)** model using `statsmodels`, including the grid search for optimal parameters[cite: 1537].
-* [cite_start]**Forecasting Strategy:** Designed the **sliding window approach** (training on the trailing 60 days) to generate the granular 7-day operational forecast[cite: 1602].
 
 ## Repository Structure
 * **`notebooks/`**:
     * `Raj1.ipynb`: My complete analysis pipeline for Solar Park 1 (EDA, Decomposition, Modeling).
     * `Raj2.ipynb`: Validation pipeline I built for Solar Park 2 to ensure model generalization.
 * **`docs/`**: Contains the full **Project Report** detailing mathematical formulations and group findings.
+* START HERE
 
 ## Methodology
 The project follows a rigorous statistical workflow implemented in Python:
